@@ -13,14 +13,6 @@ The source code of [(Context-aware Biases for Length Extrapolation)]()
 - [ ] Cleaning codebase
 - [ ] Adding scripts for training ALiBi, RoPE, T5-bias
 
-### Requirements
-
-- fire>=0.1.3
-- regex==2017.4.5
-- requests==2.21.0
-- tqdm==4.31.1
-- tiktoken==0.9.0 
-
 ### Datasets and Models
 - Fineweb-Edu [ :link: ](https://arxiv.org/abs/2406.17557) [:hugs:](https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu)
 - Fineweb [ :link: ](https://arxiv.org/abs/2406.17557) [:hugs:](https://huggingface.co/datasets/HuggingFaceFW/fineweb)
