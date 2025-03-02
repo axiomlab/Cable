@@ -35,7 +35,7 @@ Some of trained models:
 ### Training
 - Single GPU
   ```shell
-  python Cable.py --dataset-dir "path to dataset" --model "medium or small or tiny"
+  python Cable.py --dataset-dir "path to dataset" --model "medium or small or tiny" --save-dir "dir for logs"
   ```
 
 - Multiple GPUs
