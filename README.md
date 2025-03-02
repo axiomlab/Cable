@@ -50,7 +50,7 @@ Some of trained models:
  <img src="https://raw.githubusercontent.com/axiomlab/Cable/refs/heads/main/Figures/ablation.png"  width="400" height="300"/>
 </p>
 
-A model with Cable, trained on T=1024 can extrapolate on T=8192, achieving a better performance (PPL=22.22) compared to the sinusoidal model (PPL=22.81) trained on T=8192.
+A Cable model trained on T=1024 can extrapolate on T=8192, achieving a better performance (PPL=22.22) compared to the sinusoidal model (PPL=22.81) trained on T=8192.
 
 ### Runtime and Memory Overhead
 <p align="center">
