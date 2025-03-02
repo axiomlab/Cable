@@ -75,4 +75,4 @@ If you use this repository for your research or wish to refer to our distillatio
 ```
 
 ### Acknowledgement
-This codebase is heavily borrowed from [Language Models are Unsupervised Multitask Learners](https://github.com/openai/gpt-2). Thanks for their excellent work.
+This repo is based on [Karpathy/Build-NanoGPT](https://github.com/karpathy/build-nanogpt). Thanks for their excellent work.
