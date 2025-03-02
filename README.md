@@ -6,6 +6,13 @@ The source code of [(Context-aware Biases for Length Extrapolation)]()
  <img src="https://raw.githubusercontent.com/axiomlab/Cable/refs/heads/main/Figures/pull_figure.png"  width="400" height="300"/>
 </p>
 
+### 🚀 News
+- [2025.02.3] Code release
+
+#### Upcoming
+- [] Cleaning codebase
+- [] Adding scripts for training ALiBi, RoPE, T5-bias
+
 ### Requirements
 
 - fire>=0.1.3
