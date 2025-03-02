@@ -27,7 +27,7 @@ The source code of [(Context-aware Biases for Length Extrapolation)]()
 - WikiText-103 [ :link: ](https://arxiv.org/abs/1609.07843) [:hugs:](https://huggingface.co/datasets/iohadrubin/wikitext-103-raw-v1)
 - WikiText-2 [ :link: ](https://arxiv.org/abs/1609.07843) [:hugs:](https://huggingface.co/datasets/mindchain/wikitext2)
 
-Download the datasets from HuggingFace and use use ```tokenizer.py``` for saving tokenized dataset.
+Download the datasets from HuggingFace and use use ```dataset_preparation.py``` for saving tokenized dataset.
 
 
 Some of trained models:
