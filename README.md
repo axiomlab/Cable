@@ -25,8 +25,8 @@ Download the datasets from HuggingFace and use use ```dataset_preparation.py``` 
 Some of trained models:
 | Dataset | Model | Parameters |Sequence Length | Checkpoint |
 | -------- | :-------: | :-------: | :-------: | :-------: |
-| Fineweb-Edu | GPT-Medium | 334M | 1024 | [Link]() |
-| Fineweb-Edu | GPT-Medium | 334M | 512 | [Link]() |
+| Fineweb-Edu(10B) | GPT-Medium | 334M | 1024 | [Link]() |
+| Fineweb-Edu(10B) | GPT-Medium | 334M | 512 | [Link]() |
 | WikiText-103 | GPT-Tiny | 44M | 1024 | [Link]() |
 | WikiText-103 | GPT-Tiny | 44M | 512 | [Link]() |
 
@@ -39,7 +39,7 @@ Some of trained models:
 
 - Multiple GPUs
   ```shell
-  export OMP_NUM_THREADS=8; CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc_per_node=2 Cable.py
+  torchrun --standalone --nproc_per_node=2 Cable.py
   ```
 
 For Hellaswag benchmark and evaluating extrapolation please use ```evaluation.ipynb``` notebook.
