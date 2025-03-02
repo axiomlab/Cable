@@ -50,6 +50,8 @@ Some of trained models:
   export OMP_NUM_THREADS=8; CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc_per_node=2 Cable.py
   ```
 
+For Hellaswag benchmark and evaluating extrapolation please use ```evaluation.ipynb``` notebook.
+
 
 ### Length Extrapolation
 
