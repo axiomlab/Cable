@@ -10,8 +10,8 @@ The source code of [(Context-aware Biases for Length Extrapolation)]()
 - [2025.02.3] Code release
 
 #### Upcoming
-- [] Cleaning codebase
-- [] Adding scripts for training ALiBi, RoPE, T5-bias
+- [ ] Cleaning codebase
+- [ ] Adding scripts for training ALiBi, RoPE, T5-bias
 
 ### Requirements
 
