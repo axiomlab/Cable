@@ -455,7 +455,7 @@ if __name__ == "__main__":
             if ddp:
                 dist.all_reduce(val_loss_accum, op=dist.ReduceOp.AVG)
 
-            perplexity = calculate_perplexity(model, val_loader, device)
+            perplexity = math.exp(val_loss_accum.item())
 
             if master_process:
                 writer.add_scalar("loss/val", val_loss_accum.item(), step)
