@@ -28,8 +28,8 @@ Some of trained models:
 | -------- | :-------: | :-------: | :-------: | :-------: |
 | Fineweb-Edu | GPT-Medium | 334M | 1024 | [Link]() |
 | Fineweb-Edu | GPT-Medium | 334M | 512 | [Link]() |
-| WikiText-103 | GPT-Tiny | 67M | 1024 | [Link]() |
-| WikiText-103 | GPT-Tiny | 67M | 512 | [Link]() |
+| WikiText-103 | GPT-Tiny | 44M | 1024 | [Link]() |
+| WikiText-103 | GPT-Tiny | 44M | 512 | [Link]() |
 
 
 ### Training
