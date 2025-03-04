@@ -10,7 +10,8 @@ The source code of [(Context-aware Biases for Length Extrapolation)]()
 - [2025.02.3] Code release
 
 #### Upcoming
-- [ ] Cleaning codebase
+- [x] Cleaning codebase
+- [ ] Efficient Implementation of method
 - [ ] Adding scripts for training ALiBi, RoPE, T5-bias
 
 ### Datasets and Models
@@ -19,7 +20,7 @@ The source code of [(Context-aware Biases for Length Extrapolation)]()
 - WikiText-103 [ :link: ](https://arxiv.org/abs/1609.07843) [:hugs:](https://huggingface.co/datasets/iohadrubin/wikitext-103-raw-v1)
 - WikiText-2 [ :link: ](https://arxiv.org/abs/1609.07843) [:hugs:](https://huggingface.co/datasets/mindchain/wikitext2)
 
-Download the datasets from HuggingFace and use use ```dataset_preparation.py``` for saving tokenized dataset.
+Download the datasets from HuggingFace and use use ```src/dataset_preparation.py``` for saving tokenized dataset.
 
 
 Some of trained models:
@@ -42,7 +43,7 @@ Some of trained models:
   torchrun --standalone --nproc_per_node=2 Cable.py
   ```
 
-For Hellaswag benchmark and evaluating extrapolation please use ```evaluation.ipynb``` notebook.
+For Hellaswag benchmark and evaluating extrapolation please use ```src/evaluation.ipynb``` notebook.
 
 
 ### Length Extrapolation
