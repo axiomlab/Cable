@@ -35,12 +35,12 @@ Some of trained models:
 ### Training
 - Single GPU
   ```shell
-  python Cable.py --dataset-dir "path to dataset" --model "medium or small or tiny" --save-dir "dir for logs"
+  python train.py --dataset-dir "path to dataset" --model "medium or small or tiny" --save-dir "dir for logs"
   ```
 
 - Multiple GPUs
   ```shell
-  torchrun --standalone --nproc_per_node=2 Cable.py
+  torchrun --standalone --nproc_per_node=2 train.py
   ```
 
 For Hellaswag benchmark and evaluating extrapolation please use ```src/evaluation.ipynb``` notebook.
