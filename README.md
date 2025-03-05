@@ -1,4 +1,6 @@
 ## Context-aware Biases for Length Extrapolation 
+[![arXiv](https://img.shields.io/badge/arXiv-2503.6245369-<COLOR>.svg)](https://arxiv.org/abs/2503.6245369) [![Model](https://img.shields.io/badge/HuggingFace-axiomlab-blue?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable)
+
 
 The source code of [(Context-aware Biases for Length Extrapolation)]()
 
@@ -26,10 +28,10 @@ Download the datasets from HuggingFace and use use ```src/dataset_preparation.py
 Some of trained models:
 | Dataset | Model | Parameters |Sequence Length | Checkpoint |
 | -------- | :-------: | :-------: | :-------: | :-------: |
-| Fineweb-Edu(10B) | GPT-Medium | 334M | 1024 | [Link]() |
-| Fineweb-Edu(10B) | GPT-Medium | 334M | 512 | [Link]() |
-| WikiText-103 | GPT-Tiny | 44M | 1024 | [Link]() |
-| WikiText-103 | GPT-Tiny | 44M | 512 | [Link]() |
+| Fineweb-Edu(10B) | GPT-Medium | 334M | 1024 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/main) |
+| Fineweb-Edu(10B) | GPT-Medium | 334M | 512 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/main) |
+| WikiText-103 | GPT-Tiny | 44M | 1024 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/main) |
+| WikiText-103 | GPT-Tiny | 44M | 512 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/main) |
 
 
 ### Training
@@ -65,7 +67,12 @@ Cable improves the model's extrapolation ability significantly with a negligible
 If you use this repository for your research or wish to refer to our distillation method, please use the following BibTeX entry:
 ```bibtex
 
+
+
 ```
 
 ### Acknowledgement
 This repo is based on [Karpathy/Build-NanoGPT](https://github.com/karpathy/build-nanogpt). Thanks for their excellent work.
+
+## License
+MIT
