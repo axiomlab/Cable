@@ -1,5 +1,5 @@
 ## Context-aware Biases for Length Extrapolation 
-[![arXiv](https://img.shields.io/badge/arXiv-2503.6245369-<COLOR>.svg)](https://arxiv.org/abs/2503.6245369) [![Model](https://img.shields.io/badge/HuggingFace-axiomlab-blue?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable)
+[![arXiv](https://img.shields.io/badge/arXiv-2503.08067-<COLOR>.svg)](https://arxiv.org/abs/2503.08067) [![Model](https://img.shields.io/badge/HuggingFace-axiomlab-blue?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable)
 
 
 The source code of [(Context-aware Biases for Length Extrapolation)]()
