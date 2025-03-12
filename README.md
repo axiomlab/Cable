@@ -2,7 +2,7 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2503.08067-<COLOR>.svg)](https://arxiv.org/abs/2503.08067) [![Model](https://img.shields.io/badge/HuggingFace-axiomlab-blue?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable)
 
 
-The source code of [(Context-aware Biases for Length Extrapolation)]()
+The source code of [(Context-aware Biases for Length Extrapolation)](https://arxiv.org/abs/2503.08067)
 
 <p align="center">
  <img src="https://raw.githubusercontent.com/axiomlab/Cable/refs/heads/main/Figures/pull_figure.png"  width="400" height="300"/>
