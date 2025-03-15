@@ -44,7 +44,7 @@ class CausalSelfAttention(nn.Module):
 
         causal_mask = torch.triu(
             torch.full((self.block_size, self.block_size), float('-inf'), dtype=self.dtype, device=self.device),diagonal=1)
-        Bias = (b.unsqueeze(3) - b.unsqueeze(2)) + causal_mask
+        Bias = (b.unsqueeze(3) - b.unsqueeze(2)) + causal_mask[:T, :T]
 
         ###### Using torch.baddbmm for faster matrix mult with bias ########
         b_shape = Bias.shape
