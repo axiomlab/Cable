@@ -66,9 +66,12 @@ Cable improves the model's extrapolation ability significantly with a negligible
  ## Citation
 If you use this repository for your research or wish to refer to our distillation method, please use the following BibTeX entry:
 ```bibtex
-
-
-
+@article{veisi2025context,
+  title={Context-aware Biases for Length Extrapolation},
+  author={Ali Veisi and Amir Mansourian},
+  journal={arXiv preprint arXiv:2503.08067},
+  year={2025}
+}
 ```
 
 ### Acknowledgement
