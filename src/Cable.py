@@ -24,7 +24,6 @@ class CausalSelfAttention(nn.Module):
         
         self.n_head = config.n_head
         self.block_size = config.block_size
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.dtype = torch.float32  # Use consistent dtype
         self.n_embd = config.n_embd
 
@@ -43,7 +42,7 @@ class CausalSelfAttention(nn.Module):
         v = v.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
 
         causal_mask = torch.triu(
-            torch.full((self.block_size, self.block_size), float('-inf'), dtype=self.dtype, device=self.device),diagonal=1)
+            torch.full((self.block_size, self.block_size), float('-inf'), dtype=self.dtype, device=x.device),diagonal=1)
         Bias = (b.unsqueeze(3) - b.unsqueeze(2)) + causal_mask[:T, :T]
 
         ###### Using torch.baddbmm for faster matrix mult with bias ########
