@@ -64,7 +64,7 @@ A Cable model trained on T=1024 can extrapolate on T=8192, achieving a better pe
 Cable improves the model's extrapolation ability significantly with a negligible burden in time and memory compared to the vanilla transformer. Furthermore, compared to existing RPE methods, our approach maintains nearly identical training time and GPU memory usage, while its inference overhead remains either negligible or comparable, depending on the sequence length.
  
  ## Citation
-If you use this repository for your research or wish to refer to our distillation method, please use the following BibTeX entry:
+If you use this repository for your research or wish to refer to our positional encoding method, please use the following BibTeX entry:
 ```bibtex
 @article{veisi2025context,
   title={Context-aware Biases for Length Extrapolation},
