@@ -33,6 +33,25 @@ Some of trained models:
 | WikiText-103 | GPT-Tiny | 44M | 1024 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/main) |
 | WikiText-103 | GPT-Tiny | 44M | 512 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/main) |
 
+You can also use our pre-trained models from huggingface
+```shell
+from huggingface_hub import hf_hub_download
+
+# Specify the model ID and the filename you want to download
+model_id = "axiomlaborg/Cable"
+device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
+
+sd_wiki_512_path = hf_hub_download(repo_id=model_id, filename='Cable_wiki_512.pt')
+sd_wiki_1024_path = hf_hub_download(repo_id=model_id, filename='Cable_wiki_1024.pt')
+sd_fienweb_512_path = hf_hub_download(repo_id=model_id, filename='Cable_fineweb_512.pt')
+sd_fienweb_1024_path = hf_hub_download(repo_id=model_id, filename='Cable_fineweb_1024.pt')
+
+sd_wiki_512 = torch.load(sd_wiki_512_path, map_location=device)
+sd_wiki_1024 = torch.load(sd_wiki_1024_path, map_location=device)
+sd_fineweb_512 = torch.load(sd_fienweb_512_path, map_location=device)
+sd_fineweb_1024 = torch.load(sd_fienweb_1024_path, map_location=device)
+  ```
+
 
 ### Training
 - Single GPU
