@@ -46,10 +46,15 @@ sd_wiki_1024_path = hf_hub_download(repo_id=model_id, filename='Cable_wiki_1024.
 sd_fienweb_512_path = hf_hub_download(repo_id=model_id, filename='Cable_fineweb_512.pt')
 sd_fienweb_1024_path = hf_hub_download(repo_id=model_id, filename='Cable_fineweb_1024.pt')
 
-sd_wiki_512 = torch.load(sd_wiki_512_path, map_location=device)
-sd_wiki_1024 = torch.load(sd_wiki_1024_path, map_location=device)
-sd_fineweb_512 = torch.load(sd_fienweb_512_path, map_location=device)
-sd_fineweb_1024 = torch.load(sd_fienweb_1024_path, map_location=device)
+sd_wiki_512 = Cable(CableConfig(vocab_size=50304, n_layer=6, n_head=8, n_embd=512, block_size=512))
+sd_wiki_1024 = Cable(CableConfig(vocab_size=50304, n_layer=6, n_head=8, n_embd=512, block_size=1024))
+sd_fineweb_512 = Cable(CableConfig(vocab_size=50304, n_layer=24, n_head=16, n_embd=1024, block_size=512))
+sd_fineweb_1024 = Cable(CableConfig(vocab_size=50304, n_layer=24, n_head=16, n_embd=1024, block_size=1024))
+
+Cable_wiki_512.load_state_dict(sd_wiki_512)
+Cable_wiki_1024.load_state_dict(sd_wiki_1024)
+Cable_fineweb_512.load_state_dict(sd_fineweb_512)
+Cable_fineweb_1024.load_state_dict(sd_fineweb_1024)
   ```
 
 
