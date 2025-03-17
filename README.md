@@ -28,10 +28,10 @@ Download the datasets from HuggingFace and use use ```src/dataset_preparation.py
 Some of trained models:
 | Dataset | Model | Parameters |Sequence Length | Checkpoint |
 | -------- | :-------: | :-------: | :-------: | :-------: |
-| Fineweb-Edu(10B) | GPT-Medium | 334M | 1024 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/main) |
-| Fineweb-Edu(10B) | GPT-Medium | 334M | 512 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/main) |
-| WikiText-103 | GPT-Tiny | 44M | 1024 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/main) |
-| WikiText-103 | GPT-Tiny | 44M | 512 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/main) |
+| Fineweb-Edu(10B) | GPT-Medium | 334M | 1024 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)]([https://huggingface.co/axiomlaborg/Cable/tree/main](https://huggingface.co/axiomlaborg/cable-edufineweb-md-1024)) |
+| Fineweb-Edu(10B) | GPT-Medium | 334M | 512 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)]([https://huggingface.co/axiomlaborg/Cable/tree/main](https://huggingface.co/axiomlaborg/cable-edufineweb-md-512)) |
+| WikiText-103 | GPT-Tiny | 44M | 1024 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)]([https://huggingface.co/axiomlaborg/Cable/tree/main](https://huggingface.co/axiomlaborg/cable-wiki-tiny-1024)) |
+| WikiText-103 | GPT-Tiny | 44M | 512 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)]([https://huggingface.co/axiomlaborg/Cable/tree/main](https://huggingface.co/axiomlaborg/cable-wiki-tiny-512)) |
 
 You can also use our pre-trained models from huggingface
 ```shell
