@@ -24,17 +24,31 @@ The source code of [(Context-aware Biases for Length Extrapolation)](https://arx
 
 Download the datasets from HuggingFace and use use ```src/dataset_preparation.py``` for saving tokenized dataset.
 
-
 Some of trained models:
 | Dataset | Model | Parameters |Sequence Length | Checkpoint |
 | -------- | :-------: | :-------: | :-------: | :-------: |
-| Fineweb-Edu(10B) | GPT-Medium | 334M | 1024 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/cable-edufineweb-md-1024) |
-| Fineweb-Edu(10B) | GPT-Medium | 334M | 512 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/cable-edufineweb-md-512) |
-| WikiText-103 | GPT-Tiny | 44M | 1024 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/cable-wiki-tiny-1024) |
-| WikiText-103 | GPT-Tiny | 44M | 512 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/cable-wiki-tiny-512) |
+| Fineweb-Edu(10B) | GPT-Medium | 334M | 1024 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/cable-edufineweb-md-1024) |
+| Fineweb-Edu(10B) | GPT-Medium | 334M | 512 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/cable-edufineweb-md-512) |
+| WikiText-103 | GPT-Tiny | 44M | 1024 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/cable-wiki-tiny-1024) |
+| WikiText-103 | GPT-Tiny | 44M | 512 | [![Model](https://img.shields.io/badge/HuggingFace-gray?logo=huggingface)](https://huggingface.co/axiomlaborg/Cable/tree/cable-wiki-tiny-512) |
 
 You can also use our pre-trained models from huggingface
-```shell
+using transformers AutoModel:
+```python
+from transformers import AutoModel
+
+cable_fineweb_md_1024 = AutoModel.from_pretrained("axiomlaborg/Cable", trust_remote_code=True, revision = "cable-edufineweb-md-1024")
+
+cable_fineweb_md_512 = AutoModel.from_pretrained("axiomlaborg/Cable", trust_remote_code=True, revision = "cable-edufineweb-md-512")
+
+cable_wiki_tiny_1024 = AutoModel.from_pretrained("axiomlaborg/Cable", trust_remote_code=True, revision = "cable-wiki-tiny-1024")
+
+cable_wiki_tiny_512 = AutoModel.from_pretrained("axiomlaborg/Cable", trust_remote_code=True, revision = "cable-wiki-tiny-512")
+
+```
+
+or downloading state_dicts:
+```python
 from huggingface_hub import hf_hub_download
 
 # Specify the model ID and the filename you want to download
