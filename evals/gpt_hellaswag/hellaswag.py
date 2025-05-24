@@ -33,10 +33,17 @@ from tqdm import tqdm
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
-from transformers import GPT2LMHeadModel
+# from transformers import GPT2LMHeadModel
+import sys
+sys.path.append('src/')
+from model_gpt import Model
+from train_gpt import ModelConfig
+from dataclasses import dataclass
+from tqdm import tqdm
 
 # -----------------------------------------------------------------------------
 DATA_CACHE_DIR = os.path.join(os.path.dirname(__file__), "hellaswag")
+
 
 def download_file(url: str, fname: str, chunk_size=1024):
     """Helper function to download a file from a given url"""
@@ -117,61 +124,105 @@ def iterate_examples(split):
             example = json.loads(line)
             yield example
 
+
+
 @torch.no_grad()
-def evaluate(model_type, device):
+def evaluate(saved_models_path: str):
 
     torch.set_float32_matmul_precision('high') # use tf32
-    model = GPT2LMHeadModel.from_pretrained(model_type)
-    model.to(device)
-    # model = torch.compile(model) # optionally torch compile the model
 
-    num_correct_norm = 0
-    num_correct = 0
-    num_total = 0
-    for example in iterate_examples("val"):
-        data, tokens, mask, label = render_example(example)
-        tokens = tokens.to(device)
-        mask = mask.to(device)
+    models_to_evaluate = {}
+    for root, dirs, files in os.walk(saved_models_path):
+        for file in files:
+            if 'model' in file:
+                full_path = os.path.abspath(os.path.join(root, file))
+                # in-domain evaluation
+                if full_path.split('/')[-2].split('_')[1] not in ['cable2', 'cable3', 'cable4']:
+                    models_to_evaluate.update({full_path.split('/')[-2]: full_path})
 
-        # get the logits
-        logits = model(tokens).logits
-        # evaluate the autoregressive loss at all positions
-        shift_logits = (logits[..., :-1, :]).contiguous()
-        shift_tokens = (tokens[..., 1:]).contiguous()
-        flat_shift_logits = shift_logits.view(-1, shift_logits.size(-1))
-        flat_shift_tokens = shift_tokens.view(-1)
-        shift_losses = F.cross_entropy(flat_shift_logits, flat_shift_tokens, reduction='none')
-        shift_losses = shift_losses.view(tokens.size(0), -1)
-        # now get the average loss just for the completion region (where mask == 1), in each row
-        shift_mask = (mask[..., 1:]).contiguous() # we must shift mask, so we start at the last prompt token
-        masked_shift_losses = shift_losses * shift_mask
-        # sum and divide by the number of 1s in the mask
-        sum_loss = masked_shift_losses.sum(dim=1)
-        avg_loss = sum_loss / shift_mask.sum(dim=1)
-        # now we have a loss for each of the 4 completions
-        # the one with the lowest loss should be the most likely
-        pred = sum_loss.argmin().item()
-        pred_norm = avg_loss.argmin().item()
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-        # accumulate stats
-        num_total += 1
-        num_correct += int(pred == label)
-        num_correct_norm += int(pred_norm == label)
-        print(f"{num_total} acc_norm: {num_correct_norm}/{num_total}={num_correct_norm/num_total:.4f}")
+    for model_name, model_path in models_to_evaluate.items():
+        pos_method = model_name.split('_')[1]
+        trained_seq_len = int(model_name.split('_')[-1])
 
-        # debug: pretty print a few examples, and the losses in each case
-        if num_total < 10:
-            print("---")
-            print(f"Context:\n {example['ctx']}")
-            print(f"Endings:")
-            for i, end in enumerate(example["endings"]):
-                print(f"{i} (loss: {avg_loss[i].item():.4f}) {end}")
-            print(f"predicted: {pred_norm}, actual: {label}")
+        if 'tiny' in model_name:
+            config = ModelConfig(pos_method=pos_method, vocab_size=50304, n_layer=6, n_head=8, n_embd=512, block_size=trained_seq_len)
+        elif 'small' in model_name:
+            config = ModelConfig(pos_method=pos_method, vocab_size=50304, n_layer=12, n_head=12, n_embd=768, block_size=trained_seq_len)
+        elif 'medium' in model_name:
+            config = ModelConfig(pos_method=pos_method, vocab_size=50304, n_layer=24, n_head=16, n_embd=1024, block_size=trained_seq_len)
+
+        model = Model(config)
+        state_dict = torch.load(model_path)
+        keys_to_remove = [key for key in state_dict.keys() if "cached_bias" in key or "cached_seq_len" in key or "cached_matrix" in key]
+        for key in keys_to_remove:
+            del state_dict[key]
+        model.load_state_dict(state_dict)
+        model.eval().to(device)
+
+        log_dir = "evals/gpt_hellaswag/reports/"
+
+        # check for existance
+        if f"{model_name}.log" in os.listdir(log_dir):
+            print(f"Skipping {model_name} (already evaluated).")
+            continue
+        else:
+            log_file =  log_dir + f"{model_name}.log"
+            with open(log_file, "a") as f:
+                f.write(f"============== Evaluating {model_name} on Hellaswag benchmark ============== \n")
+
+        num_correct_norm = 0
+        num_correct = 0
+        num_total = 0
+        for example in tqdm(iterate_examples("val"), desc=f"Evaluating {model_name} on Hellaswag benchmark \n"):
+            data, tokens, mask, label = render_example(example)
+            tokens = tokens.to(device)
+            mask = mask.to(device)
+
+            # get the logits
+            logits, _ = model(tokens)
+            # evaluate the autoregressive loss at all positions
+            shift_logits = (logits[..., :-1, :]).contiguous()
+            shift_tokens = (tokens[..., 1:]).contiguous()
+            flat_shift_logits = shift_logits.view(-1, shift_logits.size(-1))
+            flat_shift_tokens = shift_tokens.view(-1)
+            shift_losses = F.cross_entropy(flat_shift_logits, flat_shift_tokens, reduction='none')
+            shift_losses = shift_losses.view(tokens.size(0), -1)
+            # now get the average loss just for the completion region (where mask == 1), in each row
+            shift_mask = (mask[..., 1:]).contiguous() # we must shift mask, so we start at the last prompt token
+            masked_shift_losses = shift_losses * shift_mask
+            # sum and divide by the number of 1s in the mask
+            sum_loss = masked_shift_losses.sum(dim=1)
+            avg_loss = sum_loss / shift_mask.sum(dim=1)
+            # now we have a loss for each of the 4 completions
+            # the one with the lowest loss should be the most likely
+            pred = sum_loss.argmin().item()
+            pred_norm = avg_loss.argmin().item()
+
+            # accumulate stats
+            num_total += 1
+            num_correct += int(pred == label)
+            num_correct_norm += int(pred_norm == label)
+            # print(f"{num_total} acc_norm: {num_correct_norm}/{num_total}={num_correct_norm/num_total:.4f}")
+            log_line = f"{num_total} acc_norm: {num_correct_norm}/{num_total}={num_correct_norm/num_total:.4f}"
+            print(log_line)
+            with open(log_file, "a") as f:
+                f.write(log_line + "\n")
+
+            # debug: pretty print a few examples, and the losses in each case
+            if num_total < 10:
+                print("---")
+                print(f"Context:\n {example['ctx']}")
+                print(f"Endings:")
+                for i, end in enumerate(example["endings"]):
+                    print(f"{i} (loss: {avg_loss[i].item():.4f}) {end}")
+                print(f"predicted: {pred_norm}, actual: {label}")
+        
+        torch.cuda.empty_cache()
+        print('='*50)
+
+
 
 if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--model_type", type=str, default="gpt2", help="the model type to use")
-    parser.add_argument("-d", "--device", type=str, default="cuda", help="the device to use")
-    args = parser.parse_args()
-    evaluate(args.model_type, args.device)
+    evaluate(saved_models_path='/home/hmrz/Cable/Logs/')

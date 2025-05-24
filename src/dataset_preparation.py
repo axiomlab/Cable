@@ -4,17 +4,43 @@ import numpy as np
 import tiktoken
 from datasets import load_dataset # pip install datasets
 from tqdm import tqdm # pip install tqdm
+import argparse
 
 # ------------------------------------------
-local_dir = "edu_fineweb10B"
-shard_size = int(1e8) # 100M tokens per shard, total of 100 shards
+parser = argparse.ArgumentParser()
+parser.add_argument("--dataname", type=str, choices=["fineweb-10B", "fineweb-edu-10B", "wikitext-103", "wikitext-2"], required=True)
+args = parser.parse_args()
+
+if args.dataname == "fineweb-10B":
+    local_dir = "../data/fineweb-10B"
+    data_path = "HuggingFaceFW/fineweb"
+    sample = "sample-10BT"
+    shard_size = int(1e8) # 100M tokens per shard, total of 100 shards
+elif args.dataname == "fineweb-edu-10B":
+    local_dir = "../data/fineweb-edu-10B"
+    data_path = "HuggingFaceFW/fineweb-edu"
+    sample = "sample-10BT"
+    shard_size = int(1e8) # 100M tokens per shard, total of 100 shards
+# TODO: Not sure about wikitext-103 specifications!
+elif args.dataname == "wikitext-103":
+    local_dir = "../data/wikitext-103"
+    data_path = "iohadrubin/wikitext-103-raw-v1"
+    sample = None
+    shard_size = int(5e7) # 50M tokens per shard, total of 4 shards
+elif args.dataname == "wikitext-2":
+    local_dir = "../data/wikitext-2"
+    data_path = "wikitext"
+    sample = "wikitext-2-v1"
+    shard_size = int(25e3) # 25K tokens per shard, total of 98 shards
+else:
+    raise ValueError(f"Unknown dataname {args.dataname}!")
 
 # create the cache the local directory if it doesn't exist yet
 DATA_CACHE_DIR = os.path.join(os.path.dirname(__file__), local_dir)
 os.makedirs(DATA_CACHE_DIR, exist_ok=True)
 
 # download the dataset
-fw = load_dataset("HuggingFaceFW/fineweb", "sample-10BT", split="train")
+fw = load_dataset(data_path, sample, split="train")
 
 # init the tokenizer
 enc = tiktoken.get_encoding("gpt2")
@@ -53,7 +79,7 @@ with mp.Pool(nprocs) as pool:
         else:
             # write the current shard and start a new one
             split = "val" if shard_index == 0 else "train"
-            filename = os.path.join(DATA_CACHE_DIR, f"fineweb_{split}_{shard_index:06d}")
+            filename = os.path.join(DATA_CACHE_DIR, f"{args.dataname}_{split}_{shard_index:06d}")
             # split the document into whatever fits in this shard; the remainder goes to next one
             remainder = shard_size - token_count
             progress_bar.update(remainder)
@@ -68,5 +94,5 @@ with mp.Pool(nprocs) as pool:
     # write any remaining tokens as the last shard
     if token_count != 0:
         split = "val" if shard_index == 0 else "train"
-        filename = os.path.join(DATA_CACHE_DIR, f"edufineweb_{split}_{shard_index:06d}")
+        filename = os.path.join(DATA_CACHE_DIR, f"{args.dataname}_{split}_{shard_index:06d}")
         write_datafile(filename, all_tokens_np[:token_count])
